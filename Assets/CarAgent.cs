@@ -43,13 +43,17 @@ public class CarAgent : Agent
     }
 
     public override void CollectObservations(VectorSensor sensor)
-    {
-        // Velocity (3 values)
-        sensor.AddObservation(rb.velocity.normalized);
-        
-        // Next checkpoint direction (3 values)
-        sensor.AddObservation(checkpointSystem.GetNextCheckpointDirection().normalized);
-    }
+   {
+       // Velocity (2 values - x and z only)
+       Vector3 velocityXZ = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+       sensor.AddObservation(velocityXZ.normalized);
+    
+       // Next checkpoint direction (2 values - x and z only)
+       Vector3 checkpointDirectionXZ = checkpointSystem.GetNextCheckpointDirection();
+       checkpointDirectionXZ.y = 0f; // Ignore the y-axis
+       sensor.AddObservation(checkpointDirectionXZ.normalized);
+   }
+
 
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -73,6 +77,8 @@ public class CarAgent : Agent
         
         AddReward(timePenalty);
         AddReward(acceleration / 50);
+
+        Debug.Log($"accelaration:{accelaration} breaking:{braking} steering{steering}")
 
         // Update checkpoint timer
         checkpointTimer += Time.deltaTime;
