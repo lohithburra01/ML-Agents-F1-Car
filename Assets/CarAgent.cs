@@ -78,7 +78,7 @@ public class CarAgent : Agent
         AddReward(timePenalty);
         AddReward(acceleration / 50);
 
-        Debug.Log($"accelaration:{accelaration} breaking:{braking} steering{steering}");
+        Debug.Log($"accelaration:{acceleration} breaking:{braking} steering{steering}");
 
         // Update checkpoint timer
         checkpointTimer += Time.deltaTime;
