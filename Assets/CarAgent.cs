@@ -17,13 +17,17 @@ public class CarAgent : Agent
     public float checkpointReward = 1.0f;
     public float wallPenalty = -1.0f;
     public float timePenalty = -0.001f;
-    public float completeBonus = 5.0f;
+    public float completeBonus = 25.0f;
+    public float timeoutPenalty = -5.0f;
+    public float checkpointTimeout = 30.0f; // 30 seconds timeout
+    public float wrongcheckpointPenalty = -25.0f;
 
     private Rigidbody rb;
     private CheckpointSystem checkpointSystem;
     private Vector3 startPosition;
     private Quaternion startRotation;
     private int totalCheckpoints;
+    private float checkpointTimer;
 
     public override void Initialize()
     {
@@ -35,18 +39,16 @@ public class CarAgent : Agent
         
         rb.constraints = RigidbodyConstraints.FreezeRotationX | 
                         RigidbodyConstraints.FreezeRotationZ;
+        checkpointTimer = 0f;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         // Velocity (3 values)
-        sensor.AddObservation(rb.linearVelocity.normalized);
+        sensor.AddObservation(rb.velocity.normalized);
         
         // Next checkpoint direction (3 values)
         sensor.AddObservation(checkpointSystem.GetNextCheckpointDirection().normalized);
-        
-        // Progress (1 value)
-        sensor.AddObservation((float)checkpointSystem.CurrentCheckpoint / totalCheckpoints);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -59,7 +61,7 @@ public class CarAgent : Agent
         
         // Acceleration [0, 1]
         float acceleration = Mathf.Clamp(continuousActions[1], 0f, 1f);
-        if(rb.linearVelocity.magnitude < maxSpeed)
+        if (rb.velocity.magnitude < maxSpeed)
         {
             rb.AddForce(transform.forward * acceleration * accelerationForce, 
                        ForceMode.Acceleration);
@@ -67,32 +69,47 @@ public class CarAgent : Agent
         
         // Braking [0, 1]
         float braking = Mathf.Clamp(continuousActions[2], 0f, 1f);
-        rb.linearDamping = Mathf.Lerp(normalDrag, brakeDrag, braking);
+        rb.drag = Mathf.Lerp(normalDrag, brakeDrag, braking);
         
         AddReward(timePenalty);
+        AddReward(acceleration / 50);
+
+        // Update checkpoint timer
+        checkpointTimer += Time.deltaTime;
+        if (checkpointTimer > checkpointTimeout)
+        {
+            AddReward(timeoutPenalty);
+            EndEpisode();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Checkpoint"))
+        if (other.CompareTag("Checkpoint"))
         {
-            if(checkpointSystem.IsCorrectCheckpoint(other.gameObject))
+            if (checkpointSystem.IsCorrectCheckpoint(other.gameObject))
             {
                 AddReward(checkpointReward);
                 checkpointSystem.UpdateNextCheckpoint();
+                checkpointTimer = 0f; // Reset timer when reaching a checkpoint
                 
-                if(checkpointSystem.CurrentCheckpoint >= totalCheckpoints)
+                if (checkpointSystem.CurrentCheckpoint >= totalCheckpoints)
                 {
                     AddReward(completeBonus);
                     EndEpisode();
                 }
+            }
+            else
+            {
+                AddReward(wrongcheckpointPenalty);
+                EndEpisode();
             }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Walls"))
+        if (collision.gameObject.CompareTag("Walls"))
         {
             AddReward(wallPenalty);
             EndEpisode();
@@ -103,9 +120,10 @@ public class CarAgent : Agent
     {
         transform.position = startPosition;
         transform.rotation = startRotation;
-        rb.linearVelocity = Vector3.zero;
+        rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         checkpointSystem.ResetCheckpoints();
+        checkpointTimer = 0f; // Reset the timer
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
