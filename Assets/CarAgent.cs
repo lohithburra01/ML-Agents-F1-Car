@@ -85,6 +85,7 @@ public class CarAgent : Agent
         if (checkpointTimer > checkpointTimeout)
         {
             AddReward(timeoutPenalty);
+             Debug.Log($"End timeout{checkpointTimer}");
             EndEpisode();
         }
     }
@@ -102,12 +103,14 @@ public class CarAgent : Agent
                 if (checkpointSystem.CurrentCheckpoint >= totalCheckpoints)
                 {
                     AddReward(completeBonus);
+                    Debug.Log($"End final total:{totalCheckpoints} current:{checkpointSystem.CurrentCheckpoint}");
                     EndEpisode();
                 }
             }
             else
             {
                 AddReward(wrongcheckpointPenalty);
+                Debug.Log($"End wrong checkpoint");
                 EndEpisode();
             }
         }
@@ -118,6 +121,7 @@ public class CarAgent : Agent
         if (collision.gameObject.CompareTag("Walls"))
         {
             AddReward(wallPenalty);
+             Debug.Log($"End wall");
             EndEpisode();
         }
     }
