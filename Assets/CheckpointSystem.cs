@@ -17,7 +17,13 @@ public class CheckpointSystem : MonoBehaviour
         Debug.Log("Checkpoints initialized. Total checkpoints: " + checkpoints.Count);
         Debug.Log("Checkpoint List: " + string.Join(", ", checkpoints.Select(cp => cp.name)));
     }
-
+    
+    private int ExtractNumber(string name)
+    {
+        Match match = Regex.Match(name, @"\d+"); // Find first number in the string
+        return match.Success ? int.Parse(match.Value) : 0; // Return the number, or 0 if not found
+    }
+    
     private void Update()
     {
         Debug.Log("Current Checkpoint: " + CurrentCheckpoint);
