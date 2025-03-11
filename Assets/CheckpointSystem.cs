@@ -10,7 +10,7 @@ public class CheckpointSystem : MonoBehaviour
     private void Start()
     {
         checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint")
-            .OrderBy(go => go.name)
+            .OrderBy(go => ExtractNumber(go.name)) // Sort by extracted number
             .ToList();
         ResetCheckpoints();
         Debug.Log("Checkpoints initialized. Total checkpoints: " + checkpoints.Count);
