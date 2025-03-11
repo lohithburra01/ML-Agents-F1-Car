@@ -13,25 +13,42 @@ public class CheckpointSystem : MonoBehaviour
             .OrderBy(go => go.name)
             .ToList();
         ResetCheckpoints();
+        Debug.Log("Checkpoints initialized. Total checkpoints: " + checkpoints.Count);
+        Debug.Log("Checkpoint List: " + string.Join(", ", checkpoints.Select(cp => cp.name)));
+    }
+
+    private void Update()
+    {
+        Debug.Log("Current Checkpoint: " + CurrentCheckpoint);
+        Debug.Log("Checkpoint List: " + string.Join(", ", checkpoints.Select(cp => cp.name)));
     }
 
     public Vector3 GetNextCheckpointDirection()
     {
-        return checkpoints[CurrentCheckpoint].transform.position - transform.position;
+        Vector3 direction = checkpoints[CurrentCheckpoint].transform.position - transform.position;
+        Debug.Log("Next checkpoint direction: " + direction);
+        return direction;
     }
 
     public bool IsCorrectCheckpoint(GameObject checkpoint)
     {
-        return checkpoint == checkpoints[CurrentCheckpoint];
+        bool isCorrect = checkpoint == checkpoints[CurrentCheckpoint];
+        Debug.Log("Is correct checkpoint: " + isCorrect);
+        return isCorrect;
     }
 
     public void UpdateNextCheckpoint()
     {
-        CurrentCheckpoint = (CurrentCheckpoint + 1) % checkpoints.Count;
+        CurrentCheckpoint = CurrentCheckpoint + 1;
+        Debug.Log("Updated to checkpoint: " + CurrentCheckpoint);
+        Debug.Log("Checkpoint List: " + string.Join(", ", checkpoints.Select(cp => cp.name)));
     }
 
     public void ResetCheckpoints()
     {
         CurrentCheckpoint = 0;
+        Debug.Log("Checkpoints reset. Current checkpoint: " + CurrentCheckpoint);
+        Debug.Log("Checkpoint List: " + string.Join(", ", checkpoints.Select(cp => cp.name)));
     }
 }
+
