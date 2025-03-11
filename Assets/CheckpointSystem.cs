@@ -40,7 +40,7 @@ public class CheckpointSystem : MonoBehaviour
     public bool IsCorrectCheckpoint(GameObject checkpoint)
     {
         bool isCorrect = checkpoint == checkpoints[CurrentCheckpoint];
-        Debug.Log("Is correct checkpoint: " + isCorrect);
+        Debug.Log($"Is correct checkpoint:  {checkpoint} {CurrentCheckpoint} {checkpoints[CurrentCheckpoint]}");
         return isCorrect;
     }
 
