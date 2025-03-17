@@ -76,7 +76,9 @@ public class CarAgent : Agent
         rb.drag = Mathf.Lerp(normalDrag, brakeDrag, braking);
         
         AddReward(timePenalty);
-        AddReward(acceleration / 50);
+        AddReward(acceleration / 25);
+        AddReward(-braking / 25);
+        AddReward(-steering / 50);
 
         Debug.Log($"accelaration:{acceleration} breaking:{braking} steering{steering}");
 
