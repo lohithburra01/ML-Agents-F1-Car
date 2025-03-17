@@ -78,7 +78,7 @@ public class CarAgent : Agent
         AddReward(timePenalty);
         AddReward(acceleration / 25);
         AddReward(-braking / 25);
-        if (steering < 0 ):
+        if (steering < 0 )
         {
             AddReward(steering / 50);
         }
