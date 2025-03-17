@@ -78,15 +78,6 @@ public class CarAgent : Agent
         AddReward(timePenalty);
         AddReward(acceleration / 25);
         AddReward(-braking / 25);
-        if (steering < 0 )
-        {
-            AddReward(steering / 50);
-        }
-        else
-        {
-            AddReward(-steering / 50);
-        
-        }
         
 
         Debug.Log($"accelaration:{acceleration} breaking:{braking} steering{steering}");
