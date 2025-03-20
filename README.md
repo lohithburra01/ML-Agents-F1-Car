@@ -1,9 +1,9 @@
-# **🏎️ ML-Agents: F1 Race Simulation in Unity**  
+# ** ML-Agents: F1 Race Simulation in Unity**  
 
 https://github.com/user-attachments/assets/b54315e7-c8a8-4969-a543-ebcc6cffd7db
 
 
-## **📌 Project Overview**  
+## ** Project Overview**  
 This project is an **F1 race simulation using Unity ML-Agents**, where an AI-controlled **Ferrari F1 car** learns to drive on a simplified version of the **Bahrain International Circuit**. The AI is trained using **reinforcement learning (RL)** with **Proximal Policy Optimization (PPO)**, gradually improving its driving skills through trial and error.  
 
 The project is structured in three major phases:  
@@ -15,25 +15,25 @@ This project was trained using **Unity ML-Agents Toolkit**, leveraging **CUDA ac
 
 ---
 
-# **🌟 Features & Implementation**  
+# **Features & Implementation**  
 
 ## **🏁 F1 Track & Environment**  
 - **Circuit:** The track is a simplified **Bahrain GP Circuit** modeled in Unity.  
 - **Track Barriers:** The car is kept within bounds using **walls**.  
 - **Checkpoint System:** Checkpoints are placed around the track to guide the AI and assign rewards.  
 
-## **🚗 AI-Controlled F1 Car**  
+## **AI-Controlled F1 Car**  
 - **Low-poly Ferrari F1 model** serves as the agent.  
 - Uses **wheel colliders** and **Unity’s physics system** for realistic driving behavior.  
 - **Sensor System:** The car detects walls, track boundaries, and checkpoints via **Ray Perception Sensors**.  
 
 ---
 
-# **🎯 Training Process & ML-Agents Configuration**  
+# **Training Process & ML-Agents Configuration**  
 
 At the start of training, the AI has **no knowledge of how to drive**. It explores the environment and gradually improves through trial and error, receiving rewards for **staying on track, passing checkpoints, and completing laps efficiently**.  
 
-📌 **Comparison: Before vs. After Training**  
+**Comparison: Before vs. After Training**  
 
 | Phase       | Behavior |
 |------------|----------|
@@ -42,7 +42,7 @@ At the start of training, the AI has **no knowledge of how to drive**. It explor
 
 ---
 
-## **📽️ Training Video: AI Learning to Drive**  
+## **Training Video: AI Learning to Drive**  
 
 
 https://github.com/user-attachments/assets/811e4610-4dc5-4a55-b495-123e486985ce
@@ -52,10 +52,10 @@ https://github.com/user-attachments/assets/811e4610-4dc5-4a55-b495-123e486985ce
 *(Replace this with the training video link – this is the jerky, untrained AI struggling to drive.)*  
 
 ### **Training Objectives**  
-✔️ Drive forward and complete laps.  
-✔️ Stay within the track boundaries.  
-✔️ Optimize speed and braking for better lap times.  
-❌ Avoid crashes with walls or unnecessary slowdowns.  
+Drive forward and complete laps.  
+Stay within the track boundaries.  
+Optimize speed and braking for better lap times.  
+Avoid crashes with walls or unnecessary slowdowns.  
 
 ### **PPO Configuration**  
 The **PPO algorithm** is used for training, configured with the following hyperparameters:  
@@ -83,34 +83,34 @@ behaviors:
     summary_freq: 10000
 ```
 
-## **🎯 Training Process & ML-Agents Configuration**  
+## **Training Process & ML-Agents Configuration**  
 
 At the start of training, the AI has **no knowledge of how to drive**. It explores the environment and gradually improves through trial and error, receiving rewards and penalties based on its behavior.  
 
 
-## **🏆 Reward & Penalty System**  
+## **Reward & Penalty System**  
 
 The AI is trained using **reinforcement learning**, meaning it gets **rewards for good behavior** and **penalties for mistakes**.  
 
 ### **Reward System:**  
-- ✅ **+1.0** → Passing a checkpoint.  
-- ✅ **+25.0** → Completing the track successfully.  
+- **+1.0** → Passing a checkpoint.  
+- **+25.0** → Completing the track successfully.  
 
 ### **Penalty System:**  
-- ❌ **-1.0** → Crashing into walls.  
-- ❌ **-0.001** → Time penalty for slow progress.  
-- ❌ **-5.0** → Timeout penalty if too slow.  
-- ❌ **-25.0** → Hitting the wrong checkpoint.  
-- ⏳ **30-second timeout** per checkpoint; failure to reach it results in a penalty.  
+- **-1.0** → Crashing into walls.  
+- **-0.001** → Time penalty for slow progress.  
+- **-5.0** → Timeout penalty if too slow.  
+- **-25.0** → Hitting the wrong checkpoint.  
+- **30-second timeout** per checkpoint; failure to reach it results in a penalty.  
 
 These parameters **encourage the AI to drive efficiently, avoid mistakes, and complete laps as quickly as possible**.  
 
 
-🚀 **The AI was trained for over 10 million steps**, resulting in **stable, smooth driving behavior.**  
+ **The AI was trained for over 10 million steps**, resulting in **stable, smooth driving behavior.**  
 
 ---
 
-# **🔮 Future Plans: Multi-Agent Racing 🏎️ vs 🏎️**  
+# **Future Plans: Multi-Agent Racing  vs **  
 
 ### **Upcoming Features:**  
 🔹 **Waypoint Training** – The AI will be trained to follow the **ideal racing line** for maximum efficiency.  
@@ -119,26 +119,26 @@ These parameters **encourage the AI to drive efficiently, avoid mistakes, and co
 
 ---
 
-# **⚡ How to Run the Project**  
+# **How to Run the Project**  
 
-## **1️⃣ Clone the Repository**  
+## **Clone the Repository**  
 ```sh
 git clone https://github.com/yourusername/f1-ml-agents.git
 cd f1-ml-agents
 ```
 
-## **2️⃣ Open Unity & Set Up ML-Agents**  
+## **Open Unity & Set Up ML-Agents**  
 - Install **ML-Agents Toolkit** in Unity.  
 - Ensure **Python & TensorFlow** are installed.  
 
-## **3️⃣ Train the AI**  
+## **Train the AI**  
 ```sh
 mlagents-learn config.yaml --run-id=CarAgentTraining
 ```
 - The AI will start training and improve over time.  
 - Training progress is saved in the **results folder**.  
 
-## **4️⃣ Run Inference (Test Trained Model)**  
+## **Run Inference (Test Trained Model)**  
 - Load the trained model in Unity.  
 - Press **Play** to see the AI complete the track.  
 
@@ -162,8 +162,8 @@ mlagents-learn config.yaml --run-id=CarAgentTraining
 
 ---
 
-# **📜 License & Credits**  
-📜 **License**: Open-source (MIT License). Feel free to modify and improve!  
-📌 **Acknowledgments**:  
+# **License & Credits**  
+**License**: Open-source (MIT License). Feel free to modify and improve!  
+**Acknowledgments**:  
 - **Unity ML-Agents** for providing the framework.  
 - **Formula 1** inspiration for track design.  
